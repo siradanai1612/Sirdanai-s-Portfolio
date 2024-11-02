@@ -1,24 +1,140 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="css/part2.css">
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ประสบการณ์และผลงาน - เว็บไซต์ของฉัน</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/part2.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-    <script src="../assets/js/part2.js"></script>
+
+    <!-- CSS จาก part2.css -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #E1FEFE, #E7DCFC, #F8D5F8);
+            background-image: url(../assets/img/IMG_1033.jpg);
+            background-attachment: fixed;
+            animation: gradient 30s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 20px;
+            background: linear-gradient(135deg, #86b6ff,  #ff9dd0);
+            border-radius: 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            color: #ffffff;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5),
+                        3px 3px 0px rgba(0, 0, 0, 0.5),
+                        4px 4px 0px rgba(0, 0, 0, 0.5),
+                        4px 4px 0px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease;
+        }
+
+        header p {
+            font-size: 1.5em;
+            color: #000000;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            padding: 20px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #86b6ff,  #ff9dd0);
+            margin: 20px 0;
+            border-radius: 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            text-shadow: 2px 1.5px 0px rgba(0, 0, 0, 0.5),
+                        2px 1.5px 0px rgba(0, 0, 0, 0.5),
+                        2px 1.5px 0px rgba(0, 0, 0, 0.5),
+                        2px 1.5px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #86b6ff,  #ff9dd0);
+            color: #000000;
+            border-radius: 40px;
+        }
+
+        .backButtonContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .backButton {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .backButton:hover {
+            background-color: #fc4144;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="backButtonContainer">
         <a href="page.html" class="backButton">ย้อนกลับ</a>
     </div>
 
-    <a href="./page.html">
-        <button id="contactButton">กลับไปที่ page</button>
-    </a>
+
 
     <header>
         <h1>ประสบการณ์และผลงาน</h1>
@@ -68,8 +184,30 @@
         <h3>ขอบคุณครับ</h3>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    <script src="assets/js/part2.js"></script>
+    <!-- JavaScript จาก part2.js -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const sections = gsap.utils.toArray(".scrollElement");
+        sections.forEach((section) => {
+            gsap.from(section, {
+                y: 20,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse",
+                    onEnter: () => {
+                        section.style.visibility = "visible";
+                    }
+                }
+            });
+        });
+
+        window.onbeforeunload = function() {
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html>
