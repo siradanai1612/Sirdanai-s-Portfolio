@@ -15,7 +15,7 @@
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #E1FEFE, #E7DCFC, #F8D5F8);
-            background-image: url(../assets/img/IMG_1033.jpg);
+            background-image: url(./assets/img/IMG_1033.jpg);
             background-attachment: fixed;
             animation: gradient 30s ease infinite;
         }
@@ -28,28 +28,34 @@
 
         header {
             text-align: center;
-            padding: 2ch 20px;
+            padding: 20px 20px;
             background: linear-gradient(135deg, #86b6ff, #ff9dd0);
-            position: relative;
             border-radius: 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 3em;
-            color: #ffc400;
-            text-shadow: 3px 2px 0px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5),
+                        3px 3px 0px rgba(0, 0, 0, 0.5),
+                        4px 4px 0px rgba(0, 0, 0, 0.5),
+                        4px 4px 0px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease;
         }
 
         header p {
             font-size: 1.5em;
             color: #000000;
+            animation: fadeInUp 1s ease;
         }
 
         button {
             padding: 15px 30px;
             font-size: 1.2em;
-            background-color: #fdbb2d;
+            background-color: #ff6f61;
+            color: #fff;
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -57,7 +63,7 @@
         }
 
         button:hover {
-            background-color: #b21f1f;
+            background-color: #fc4144;
         }
 
         section {
@@ -66,12 +72,16 @@
             background: linear-gradient(135deg, #86b6ff, #ff9dd0);
             margin: 20px 0;
             border-radius: 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
             font-family: 'Orbitron', sans-serif;
-            color: #fdbb2d;
-            text-shadow: 2px 1.5px 0px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            text-shadow: 2px 1.5px 0px rgba(0, 0, 0, 0.5),
+                        2px 1.5px 0px rgba(0, 0, 0, 0.5),
+                        2px 1.5px 0px rgba(0, 0, 0, 0.5),
+                        2px 1.5px 0px rgba(0, 0, 0, 0.5);
         }
 
         #experience ul {
@@ -96,9 +106,20 @@
 
         footer {
             text-align: center;
-            padding: 20px 20px;
+            padding: 20px;
             background: linear-gradient(135deg, #86b6ff, #ff9dd0);
             color: #000000;
+            border-radius: 40px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
