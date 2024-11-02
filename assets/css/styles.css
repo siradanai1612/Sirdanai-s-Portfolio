@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   background: linear-gradient(135deg, #E1FEFE, #E7DCFC, #F8D5F8);
-  background-image: url(../img/IMG_1033.jpg);
+  background-image: url(../img/background.jpg);
   background-attachment: fixed;
   animation: gradient 30s ease infinite;
 }
