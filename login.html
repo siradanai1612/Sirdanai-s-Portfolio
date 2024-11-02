@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบล็อกอิน</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ffd1dc, #ff9aa2, #a2d2ff, #ffb6b9, #bde0fe, #c1d3fe);
+            background-size: 200% 200%;
+            animation: pastelBackgroundAnimation 10s ease infinite;
+        }
+
+        @keyframes pastelBackgroundAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 50px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 80px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffc400;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 80px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff9999;
+            color: white;
+        }
+
+        #message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>เข้าสู่ระบบ</h2>
+    <div class="form-group">
+        <label for="username">ชื่อผู้ใช้:</label>
+        <input type="text" id="username" required>
+    </div>
+    <div class="form-group">
+        <label for="password">รหัสผ่าน:</label>
+        <input type="password" id="password" required onkeydown="checkEnter(event)">
+    </div>
+    <button id="loginButton" onclick="login()">เข้าสู่ระบบ</button>
+    <p id="message"></p>
+</div>
+
+<script>
+    let attempts = 0;
+    const maxAttempts = 3;
+    const lockTime = 15 * 60 * 1000; // 15 นาที (ในมิลลิวินาที)
+    let isLocked = false;
+
+    function checkEnter(event) {
+        if (event.key === "Enter") {
+            login(); // เรียกฟังก์ชันล็อกอินเมื่อกด Enter
+        }
+    }
+
+    function login() {
+        if (isLocked) {
+            document.getElementById("message").innerText = "คุณถูกล็อกจากการเข้าสู่ระบบ กรุณาลองใหม่ใน 15 นาที";
+            return;
+        }
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // ตัวอย่างชื่อผู้ใช้และรหัสผ่าน
+        const validUsername = "admin";
+        const validPassword = "54321";
+
+        if (username === validUsername && password === validPassword) {
+            // เปลี่ยนเส้นทางไปยังหน้า index.html เมื่อเข้าสู่ระบบสำเร็จ
+            window.location.href = "http://127.0.0.1:5500/portfolio/%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%80%E0%B9%80%E0%B8%A3%E0%B8%81/index.html";
+        } else {
+            attempts++;
+            document.getElementById("message").innerText = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!";
+
+            if (attempts >= maxAttempts) {
+                isLocked = true;
+                document.getElementById("loginButton").disabled = true; // ปิดปุ่มเข้าสู่ระบบ
+                document.getElementById("message").innerText = "คุณถูกล็อกจากการเข้าสู่ระบบ กรุณาลองใหม่ใน 15 นาที";
+
+                // ตั้งเวลาล็อก
+                setTimeout(() => {
+                    isLocked = false;
+                    attempts = 0;
+                    document.getElementById("loginButton").disabled = false; // เปิดปุ่มเข้าสู่ระบบอีกครั้ง
+                    document.getElementById("message").innerText = "คุณสามารถลองเข้าสู่ระบบได้อีกครั้ง";
+                }, lockTime);
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

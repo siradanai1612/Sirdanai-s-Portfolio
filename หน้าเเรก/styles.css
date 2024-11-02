@@ -1,0 +1,92 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #E1FEFE, #E7DCFC, #F8D5F8);
+  background-image:url(../img/IMG_1033.jpg);
+  background-attachment: fixed;
+  animation: gradient 30s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+header {
+  text-align: center;
+  padding: 2ch 20px;
+  background: linear-gradient(135deg, #86b6ff, #ff9dd0);
+  position: relative;
+  border-radius: 60px;
+}
+
+header h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3em;
+  color: #ffc400;
+  text-shadow: 3px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+header p {
+  font-size: 1.5em;
+  color: #000000;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  background-color: #fdbb2d;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #b21f1f;
+}
+
+section {
+  padding: 20px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #86b6ff, #ff9dd0);
+  margin: 20px 0;
+  border-radius: 60px;
+}
+
+h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #fdbb2d;
+  text-shadow: 2px 1.5px 0px rgba(0, 0, 0, 0.5);
+}
+
+#experience ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: 1.1em;
+  line-height: 2em;
+}
+
+#experience ul li {
+
+  align-items: center;
+  font-size: 1.1em;
+  margin: 10px 0;
+  color: #000000;
+}
+
+#experience ul li i {
+  color: #000000;
+  margin-right: 10px;
+  font-size: 1.3em;
+}
+
+footer {
+  text-align: center;
+  padding: 20px 20px;
+  background: linear-gradient(135deg, #86b6ff, #ff9dd0);
+  color: #000000;
+}
