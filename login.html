@@ -36,6 +36,8 @@
 
         h2 {
             text-align: center;
+            color: #333;
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -45,100 +47,157 @@
         label {
             display: block;
             margin-bottom: 5px;
+            color: #555;
         }
 
-        input[type="text"], input[type="password"] {
+        input[type="text"], 
+        input[type="password"] {
             width: 100%;
-            padding: 6px;
-            border: 1px solid #ccc;
-            border-radius: 80px;
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, 
+        input[type="password"]:focus {
+            border-color: #a2d2ff;
+            outline: none;
         }
 
         button {
             width: 100%;
             padding: 10px;
             background-color: #ffc400;
-            color: rgb(0, 0, 0);
+            color: #000;
             border: none;
-            border-radius: 80px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: bold;
         }
 
         button:hover {
             background-color: #ff9999;
             color: white;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
         }
 
         #message {
-            color: red;
+            color: #ff4444;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .loading {
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .loading::after {
+            content: "...";
+            position: absolute;
+            right: 10px;
         }
     </style>
 </head>
 <body>
-
-<div class="login-container">
-    <h2>เข้าสู่ระบบ</h2>
-    <div class="form-group">
-        <label for="username">ชื่อผู้ใช้:</label>
-        <input type="text" id="username" required>
+    <div class="login-container">
+        <h2>เข้าสู่ระบบ</h2>
+        <div class="form-group">
+            <label for="username">ชื่อผู้ใช้:</label>
+            <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">รหัสผ่าน:</label>
+            <input type="password" id="password" required>
+        </div>
+        <button id="loginButton" onclick="login()">เข้าสู่ระบบ</button>
+        <p id="message"></p>
     </div>
-    <div class="form-group">
-        <label for="password">รหัสผ่าน:</label>
-        <input type="password" id="password" required onkeydown="checkEnter(event)">
-    </div>
-    <button id="loginButton" onclick="login()">เข้าสู่ระบบ</button>
-    <p id="message"></p>
-</div>
 
-<script>
-    let attempts = 0;
-    const maxAttempts = 3;
-    const lockTime = 15 * 60 * 1000; // 15 นาที (ในมิลลิวินาที)
-    let isLocked = false;
+    <script>
+        let attempts = 0;
+        const maxAttempts = 3;
+        const lockTime = 15 * 60 * 1000; // 15 นาที
+        let isLocked = false;
 
-    function checkEnter(event) {
-        if (event.key === "Enter") {
-            login(); // เรียกฟังก์ชันล็อกอินเมื่อกด Enter
-        }
-    }
-
-    function login() {
-        if (isLocked) {
-            document.getElementById("message").innerText = "คุณถูกล็อกจากการเข้าสู่ระบบ กรุณาลองใหม่ใน 15 นาที";
-            return;
-        }
-
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        // ตัวอย่างชื่อผู้ใช้และรหัสผ่าน
-        const validUsername = "admin";
-        const validPassword = "54321";
-
-        if (username === validUsername && password === validPassword) {
-            // เปลี่ยนเส้นทางไปยังหน้า index.html เมื่อเข้าสู่ระบบสำเร็จ
-            window.location.href = "http://127.0.0.1:5500/portfolio/%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%80%E0%B9%80%E0%B8%A3%E0%B8%81/index.html";
-        } else {
-            attempts++;
-            document.getElementById("message").innerText = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!";
-
-            if (attempts >= maxAttempts) {
-                isLocked = true;
-                document.getElementById("loginButton").disabled = true; // ปิดปุ่มเข้าสู่ระบบ
-                document.getElementById("message").innerText = "คุณถูกล็อกจากการเข้าสู่ระบบ กรุณาลองใหม่ใน 15 นาที";
-
-                // ตั้งเวลาล็อก
-                setTimeout(() => {
-                    isLocked = false;
-                    attempts = 0;
-                    document.getElementById("loginButton").disabled = false; // เปิดปุ่มเข้าสู่ระบบอีกครั้ง
-                    document.getElementById("message").innerText = "คุณสามารถลองเข้าสู่ระบบได้อีกครั้ง";
-                }, lockTime);
+        // เพิ่ม Event Listener สำหรับการกด Enter
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                login();
             }
-        }
-    }
-</script>
+        });
 
+        function login() {
+            const loginButton = document.getElementById("loginButton");
+            const messageElement = document.getElementById("message");
+            
+            // ตรวจสอบว่าถูกล็อกอยู่หรือไม่
+            if (isLocked) {
+                messageElement.innerText = "คุณถูกล็อกจากการเข้าสู่ระบบ กรุณาลองใหม่ใน 15 นาที";
+                return;
+            }
+
+            // รับค่าจาก input
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            // ตรวจสอบว่ากรอกข้อมูลครบหรือไม่
+            if (!username || !password) {
+                messageElement.innerText = "กรุณากรอกข้อมูลให้ครบ";
+                return;
+            }
+
+            // แสดงสถานะกำลังโหลด
+            loginButton.disabled = true;
+            loginButton.classList.add("loading");
+            loginButton.innerText = "กำลังเข้าสู่ระบบ";
+
+            // จำลองการตรวจสอบข้อมูล
+            setTimeout(() => {
+                if (username === "admin" && password === "54321") {
+                    messageElement.style.color = "#4CAF50";
+                    messageElement.innerText = "เข้าสู่ระบบสำเร็จ!";
+                    // รอสักครู่แล้วไปหน้าถัดไป
+                    setTimeout(() => {
+                        window.location.href = "page.html";
+                    }, 1000);
+                } else {
+                    attempts++;
+                    messageElement.style.color = "#ff0000";
+                    messageElement.innerText = `ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! (ผิด ${attempts}/${maxAttempts} ครั้ง)`;
+                    
+                    if (attempts >= maxAttempts) {
+                        isLocked = true;
+                        loginButton.disabled = true;
+                        messageElement.innerText = "คุณถูกล็อกจากการเข้าสู่ระบบ กรุณาลองใหม่ใน 15 นาที";
+                        
+                        setTimeout(() => {
+                            isLocked = false;
+                            attempts = 0;
+                            loginButton.disabled = false;
+                            loginButton.classList.remove("loading");
+                            loginButton.innerText = "เข้าสู่ระบบ";
+                            messageElement.style.color = "#000000";
+                            messageElement.innerText = "คุณสามารถลองเข้าสู่ระบบได้อีกครั้ง";
+                        }, lockTime);
+                    } else {
+                        loginButton.disabled = false;
+                        loginButton.classList.remove("loading");
+                        loginButton.innerText = "เข้าสู่ระบบ";
+                    }
+                }
+            }, 1000); // จำลองดีเลย์ 1 วินาที
+        }
+    </script>
 </body>
 </html>
